@@ -6,11 +6,13 @@ const {
     singleGetProduct,
     postProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getSearched
 } = require("../controllers/productController");
 
 
 router.route("/").get(getAllProducts);
+router.route("/searched").get(getSearched)
 router.post("/", uploadFiles.array("files", 10), postProduct);
 router.put("/:id", uploadFiles.array("files", 10), updateProduct);
 router.route("/:id").get(singleGetProduct).delete(deleteProduct);

@@ -32,7 +32,7 @@ const postUserSignup = asyncHandler(async (req, res) => {
     const { userName, email, phone, password, cart } = req.body;
     // check existing user with email
     const existingUser = await users.findOne({email: email});
-
+    console.log(existingUser);
     if (!userName || !email || !phone || !password) {
 
       res.status(400).json({message: "All fields are mandatory"});
@@ -129,6 +129,8 @@ const putToCart = asyncHandler( async (req, res) => {
     const userId = req.params.userId;
     const productId = req.body.productId;
 
+    console.log("userId:", userId, "productId:", productId);
+
     // Find the user by ID and update the cart
     const updatedUser = await users.findByIdAndUpdate(
       userId,
@@ -154,7 +156,7 @@ const getCartProducts = asyncHandler(async (req, res) => {
     const userCart = await users.aggregate([
       {
         $match: {
-          _id: new mongoose.Types.ObjectId(userId) 
+          _id: new mongoose.Types.ObjectId(userId)
         }
       },
       {
@@ -176,10 +178,10 @@ const getCartProducts = asyncHandler(async (req, res) => {
       }
     ]);
 
-    if (userCart.length === 0) {
-      res.status(404).json({ message: "User not found or no products in the cart" });
-    } else {
+    if (userCart.length >= 0) {
       res.status(200).json(userCart);
+    } else {
+      res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
     console.error(error);
@@ -196,7 +198,6 @@ const deleteProductFromCart = asyncHandler( async (req, res) => {
   if(userId && index) {
 
     const user = await users.findById(userId);
-    console.log(user);
     if(user) {
 
       user.cart.splice(index, 1)

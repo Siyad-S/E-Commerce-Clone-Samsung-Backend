@@ -33,13 +33,14 @@ app.use("/sub_category", subCategoryRoute);
 app.use('/product/uploads', express.static(path.join(__dirname, "uploads")));
 app.use('/category/uploads', express.static(path.join(__dirname, "uploads")));
 app.use('/sub_category/uploads', express.static(path.join(__dirname, "uploads")));
+app.use('/banner/uploads', express.static(path.join(__dirname, "uploads")));
 
 app.use("/admin", adminRoute);
 app.use("/user", userRoute);
 app.use("/cart", cartRoute);
 // app.use("/order", auth, orderRoute);
 app.use("/order", orderRoute);
-
+app.use("/banner", require("./router/banner"))
 app.use("/stripe", stripeRoute)
 
 app.listen(port, () => {

@@ -14,9 +14,7 @@ const user = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cart: [{
-
-  }],
+  cart: [{}],
 
   token: {
     type: String,
